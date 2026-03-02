@@ -32,33 +32,38 @@ router.get("/postList", (req, res) => {
     }
 
     // 캐시가 비어있으면 DB fallback
-    const posts = getPosts({ stockCd, limit });
+    try {
+      const posts = getPosts({ stockCd, limit });
 
-    if (type === "1") {
-      posts.sort((a, b) => (b.like_cnt || 0) - (a.like_cnt || 0));
-    }
-
-    const result = posts.map((row) => {
-      try {
-        return JSON.parse(row.raw_json);
-      } catch {
-        return {
-          postId: row.post_id,
-          title: row.title,
-          contents: row.contents,
-          userNm: row.user_nm,
-          regDt: row.reg_dt,
-          postReadCnt: row.post_read_cnt,
-          likeCnt: row.like_cnt,
-          commentCnt: row.comment_cnt,
-          stockCd: row.stock_cd,
-          channelId: row.channel_id,
-          channelNm: row.channel_nm,
-        };
+      if (type === "1") {
+        posts.sort((a, b) => (b.like_cnt || 0) - (a.like_cnt || 0));
       }
-    });
 
-    res.json(result);
+      const result = posts.map((row) => {
+        try {
+          return JSON.parse(row.raw_json);
+        } catch {
+          return {
+            postId: row.post_id,
+            title: row.title,
+            contents: row.contents,
+            userNm: row.user_nm,
+            regDt: row.reg_dt,
+            postReadCnt: row.post_read_cnt,
+            likeCnt: row.like_cnt,
+            commentCnt: row.comment_cnt,
+            stockCd: row.stock_cd,
+            channelId: row.channel_id,
+            channelNm: row.channel_nm,
+          };
+        }
+      });
+
+      return res.json(result);
+    } catch (dbError) {
+      console.warn("[GET /v2/lounge/postList] DB fallback 실패:", dbError.message);
+      return res.json([]);
+    }
   } catch (error) {
     console.error("[GET /v2/lounge/postList] Error:", error.message);
     res.status(500).json({ success: false, error: error.message });

@@ -32,11 +32,17 @@ async function fetchAndSavePosts() {
     );
 
     if (Array.isArray(data) && data.length > 0) {
-      savePosts(data);
-      cachedPosts = data; // 메모리 캐시 갱신
+      cachedPosts = data; // 메모리 캐시 먼저 갱신
       const titles = data.map((p) => p.title);
-      console.log(`[Scheduler] ${data.length}개 게시글 저장 완료 (메모리 캐시 갱신):`);
+      console.log(`[Scheduler] ${data.length}개 게시글 메모리 캐시 갱신:`);
       titles.forEach((t, i) => console.log(`  ${i + 1}. ${t}`));
+
+      try {
+        savePosts(data);
+        console.log(`[Scheduler] DB 저장 완료`);
+      } catch (dbError) {
+        console.warn("[Scheduler] DB 저장 실패 (메모리 캐시는 정상):", dbError.message);
+      }
     } else {
       console.log("[Scheduler] 조회된 게시글 없음");
     }
