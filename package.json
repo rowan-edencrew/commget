@@ -1,0 +1,17 @@
+{
+  "name": "comm-get",
+  "version": "1.0.0",
+  "description": "커뮤니티 서버 중계 서버 - 로그인 후 정보 조회 및 DB 저장",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js",
+    "test": "node test.js"
+  },
+  "dependencies": {
+    "axios": "^1.7.0",
+    "better-sqlite3": "^11.0.0",
+    "dotenv": "^16.4.0",
+    "express": "^4.21.0"
+  }
+}
