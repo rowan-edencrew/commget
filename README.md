@@ -18,7 +18,7 @@ comm_get/
 │   │   └── posts.js                 # 게시글 중계 API 라우트
 │   └── services/
 │       ├── communityAuth.js         # 커뮤니티 로그인 서비스
-│       └── scheduler.js             # 1시간 주기 게시글 수집 스케줄러
+│       └── scheduler.js             # 10분 주기 게시글 수집 스케줄러
 └── data/
     └── comm_get.db                  # SQLite DB 파일 (자동 생성)
 ```
@@ -52,7 +52,7 @@ npm test
 
 ```
 ┌─────────────────────────────────────────────────────┐
-│  스케줄러 (1시간 간격)                                │
+│  스케줄러 (10분 간격)                                │
 │                                                     │
 │  1. gardenapi.nhsec.com/apiKeyPairGen → 공개키 수신   │
 │  2. hashedUserId + 공개키 → RSA 암호화                │
@@ -136,5 +136,5 @@ GET /health
 ## 참고사항
 
 - `$secure.makeHashData`는 앱 고유 해시 함수로, 단순 SHA-256이 아님. `.env`의 `HASHED_USER_ID`에 앱에서 생성한 해시값을 직접 설정해야 함.
-- 스케줄러가 서버 시작 시 즉시 1회 수집 후, 이후 1시간 간격으로 자동 수집.
+- 스케줄러가 서버 시작 시 즉시 1회 수집 후, 이후 10분 간격으로 자동 수집.
 - 응답 시간: 로그인 ~2초, postList 조회 ~1.5초 (gardenapi 기준).

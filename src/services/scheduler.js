@@ -2,7 +2,7 @@ const axios = require("axios");
 const CommunityAuth = require("./communityAuth");
 const { savePosts } = require("../config/database");
 
-const FETCH_INTERVAL = 60 * 60 * 1000; // 1시간
+const FETCH_INTERVAL = 10 * 60 * 1000; // 10분
 
 let timer = null;
 let cachedPosts = []; // 최신 6개 메모리 캐시
@@ -52,7 +52,7 @@ async function fetchAndSavePosts() {
 }
 
 function start() {
-  console.log("[Scheduler] 시작 - 1시간 간격으로 게시글 수집");
+  console.log("[Scheduler] 시작 - 10분 간격으로 게시글 수집");
 
   // 서버 시작 시 즉시 1회 실행
   fetchAndSavePosts();

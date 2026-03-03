@@ -31,7 +31,7 @@ const server = app.listen(PORT, () => {
   console.log(`  GET  /v2/lounge/postList    - 게시글 조회 (토큰 불필요)`);
   console.log(`  GET  /health               - 헬스체크\n`);
 
-  // 스케줄러 시작 (1시간 간격 게시글 수집)
+  // 스케줄러 시작 (10분 간격 게시글 수집)
   scheduler.start();
 });
 
